@@ -16,4 +16,3 @@ spring:
     open-in-view: false
 logging.level:
   org.hibernate.SQL: debug
-  root: debug

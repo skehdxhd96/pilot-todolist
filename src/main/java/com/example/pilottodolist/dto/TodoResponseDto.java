@@ -28,4 +28,13 @@ public class TodoResponseDto {
             this.progress = todo.getProgress();
         }
     }
+
+    @Data
+    public static class UPDATE {
+        private Boolean isAllCheck;
+
+        public UPDATE(Boolean isAllCheck) {
+            this.isAllCheck = isAllCheck;
+        }
+    }
 }

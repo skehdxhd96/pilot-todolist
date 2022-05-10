@@ -1,5 +1,6 @@
 package com.example.pilottodolist.controller;
 
+import com.example.pilottodolist.domain.Progress;
 import com.example.pilottodolist.dto.TodoListInfo;
 import com.example.pilottodolist.dto.TodoRequestDto;
 import com.example.pilottodolist.dto.TodoResponseDto;
@@ -20,14 +21,24 @@ public class TodoController {
         return todoService.create(created);
     }
 
-    @GetMapping("/todoList")
-    public TodoListInfo<TodoResponseDto.GET> getTodoList() {
-        List<TodoResponseDto.GET> todoList = todoService.getTodoList();
-        return new TodoListInfo<>(todoList.size(), todoList);
-    }
-
     @PostMapping("/{todoId}/progress")
     public void changeProgress(@PathVariable("todoId") Long id) {
         todoService.changeProgress(id);
+    }
+
+    @PostMapping(value = "/delete-todos")
+    public void deleteTodoList(@RequestBody TodoRequestDto.DELETED deleted) {
+        todoService.deleteTodoList(deleted);
+    }
+
+    @GetMapping("/todoList")
+    public TodoListInfo<TodoResponseDto.GET> getTodoList(@RequestParam(value = "progress", required = false) Progress progress) {
+        List<TodoResponseDto.GET> todoList = todoService.getTodoList(progress);
+        return new TodoListInfo<>(todoList.size(), todoList);
+    }
+
+    @PostMapping("/all-progress")
+    public TodoResponseDto.UPDATE updateAllProgress(@RequestBody TodoRequestDto.UPDATE isAllCheck) {
+        return todoService.updateAllProgress(isAllCheck.getIsAllCheck());
     }
 }
